@@ -80,6 +80,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basketdb:6379"
       - "GrpcSettings:DiscountUrl=http://discount.grpc"
+      - "EventBusSettings:HostAddress=ampq://guest:guest@localhost:5672"
     depends_on:
       - basketdb
     ports:

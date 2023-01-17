@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ordering.API
+namespace OcelotAPIGateway
 {
     public class Program
     {
@@ -18,9 +18,19 @@ namespace Ordering.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile($"ocelot.{hostingContext.HostingEnvironment.EnvironmentName}.json", true, true);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging((context, log) =>
+                {
+                    log.AddConfiguration(context.Configuration.GetSection("Logging"));
+                    log.AddConsole();
+                    log.AddDebug();  
                 });
     }
 }
